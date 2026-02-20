@@ -1,0 +1,6 @@
+{
+  "appId": "com.sundar.app",
+  "appName": "Kirthika Attendance App",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}

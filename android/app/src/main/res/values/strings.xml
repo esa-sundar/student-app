@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Kirthika Attendance App</string>
+    <string name="title_activity_main">Kirthika Attendance App</string>
+    <string name="package_name">com.sundar.app</string>
+    <string name="custom_url_scheme">com.sundar.app</string>
+</resources>

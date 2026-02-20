@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Kirthika Technical Institute - Student Attendance & Fees</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <header class="topbar no-print">
+      <button id="menuBtn" class="icon-btn" type="button" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">
+        ☰
+      </button>
+      <div class="topbar-title">
+        <div class="app-title">Kirthika Technical Institute</div>
+        <div id="appSubtitle" class="app-subtitle">Students</div>
+      </div>
+      <button id="quickAddBtn" class="btn btn-primary" type="button">+ Add</button>
+    </header>
+
+    <div id="backdrop" class="backdrop hidden no-print" aria-hidden="true"></div>
+
+    <nav id="drawer" class="drawer hidden no-print" aria-label="Main navigation">
+      <div class="drawer-header">
+        <div class="drawer-title">Menu</div>
+        <button id="closeDrawerBtn" class="icon-btn" type="button" aria-label="Close menu">✕</button>
+      </div>
+      <div class="drawer-links">
+        <button class="nav-link active" type="button" data-route="students">Students</button>
+        <button class="nav-link" type="button" data-route="attendance">Attendance</button>
+        <button class="nav-link" type="button" data-route="fees">Fees / Payments</button>
+        <button class="nav-link" type="button" data-route="receipts">Receipts</button>
+        <button class="nav-link" type="button" data-route="reports">Fees Report</button>
+        <button class="nav-link" type="button" data-route="settings">Settings</button>
+      </div>
+    </nav>
+
+    <main id="main" class="main">
+      <!-- Students -->
+      <section id="view-students" class="view" data-view="students" aria-labelledby="studentsHeading">
+        <div class="view-header">
+          <h2 id="studentsHeading" class="view-title">Students</h2>
+          <div class="view-actions">
+            <input id="studentSearch" class="input" type="search" placeholder="Search name…" />
+          </div>
+        </div>
+
+        <div class="filters">
+          <select id="filterClass" class="input">
+            <option value="">All classes</option>
+          </select>
+          <select id="filterTiming" class="input">
+            <option value="">All timings</option>
+          </select>
+          <select id="filterMachine" class="input">
+            <option value="">All machines</option>
+          </select>
+        </div>
+
+        <div id="studentsList" class="list"></div>
+        <div id="studentsEmpty" class="empty-state hidden">
+          <div class="empty-title">No students yet</div>
+          <div class="empty-subtitle">Tap “Add” to create your first student.</div>
+        </div>
+      </section>
+
+      <!-- Attendance -->
+      <section id="view-attendance" class="view hidden" data-view="attendance" aria-labelledby="attendanceHeading">
+        <div class="view-header">
+          <h2 id="attendanceHeading" class="view-title">Attendance</h2>
+          <div class="view-actions">
+            <input id="attendanceDate" class="input" type="date" />
+            <button id="saveAttendanceBtn" class="btn btn-primary" type="button">Save</button>
+          </div>
+        </div>
+
+        <div class="filters">
+          <select id="attFilterClass" class="input">
+            <option value="">All classes</option>
+          </select>
+          <select id="attFilterTiming" class="input">
+            <option value="">All timings</option>
+          </select>
+          <select id="attFilterMachine" class="input">
+            <option value="">All machines</option>
+          </select>
+        </div>
+
+        <div id="attendanceList" class="list"></div>
+        <div id="attendanceEmpty" class="empty-state hidden">
+          <div class="empty-title">No students to mark</div>
+          <div class="empty-subtitle">Add students first.</div>
+        </div>
+      </section>
+
+      <!-- Fees / Payments -->
+      <section id="view-fees" class="view hidden" data-view="fees" aria-labelledby="feesHeading">
+        <div class="view-header">
+          <h2 id="feesHeading" class="view-title">Fees / Payments</h2>
+        </div>
+
+        <div class="card">
+          <div class="grid">
+            <label class="field">
+              <span class="label">Student</span>
+              <select id="payStudentId" class="input"></select>
+            </label>
+            <label class="field">
+              <span class="label">Month</span>
+              <input id="payMonth" class="input" type="month" />
+            </label>
+            <label class="field">
+              <span class="label">Amount (₹450 per month)</span>
+              <input id="payAmount" class="input" type="number" min="450" step="450" placeholder="450" value="450" />
+              <div id="monthsCoveredHint" class="muted" style="font-size:12px; margin-top:4px;"></div>
+            </label>
+            <label class="field">
+              <span class="label">Paid date</span>
+              <input id="payDate" class="input" type="date" />
+            </label>
+            <label class="field">
+              <span class="label">Mode</span>
+              <select id="payMode" class="input">
+                <option value="Cash">Cash</option>
+                <option value="UPI">UPI</option>
+                <option value="Bank">Bank</option>
+              </select>
+            </label>
+            <label class="field">
+              <span class="label">Notes</span>
+              <input id="payNotes" class="input" type="text" placeholder="Optional" />
+            </label>
+          </div>
+          <div class="row row-end">
+            <label class="checkbox">
+              <input id="allowDuplicatePayment" type="checkbox" />
+              <span>Allow edit/overwrite if already paid</span>
+            </label>
+            <button id="savePaymentBtn" class="btn btn-primary" type="button">Save payment</button>
+          </div>
+        </div>
+
+        <div id="paymentReceiptCard" class="card hidden">
+          <div class="row row-between">
+            <div>
+              <div class="card-title">Receipt preview</div>
+              <div id="receiptHint" class="muted">Saved successfully.</div>
+            </div>
+            <div class="row" style="gap:8px;">
+            <button id="printReceiptBtn" class="btn" type="button">Print</button>
+            <button id="sendWhatsAppBtn" class="btn btn-primary" type="button">Send via WhatsApp</button>
+          </div>
+          </div>
+          <div id="receiptPreview" class="receipt print-area"></div>
+        </div>
+      </section>
+
+      <!-- Receipts -->
+      <section id="view-receipts" class="view hidden" data-view="receipts" aria-labelledby="receiptsHeading">
+        <div class="view-header">
+          <h2 id="receiptsHeading" class="view-title">Receipts</h2>
+          <div class="view-actions">
+            <input id="receiptSearch" class="input" type="search" placeholder="Search receipt no / student…" />
+          </div>
+        </div>
+        <div id="receiptsList" class="list"></div>
+        <div id="receiptsEmpty" class="empty-state hidden">
+          <div class="empty-title">No receipts yet</div>
+          <div class="empty-subtitle">Save a payment to generate receipts.</div>
+        </div>
+      </section>
+
+      <!-- Fees Report -->
+      <section id="view-reports" class="view hidden" data-view="reports" aria-labelledby="reportsHeading">
+        <div class="view-header">
+          <h2 id="reportsHeading" class="view-title">Fees Report</h2>
+          <div class="view-actions">
+            <input id="reportMonth" class="input" type="month" />
+            <button id="refreshReportsBtn" class="btn btn-primary" type="button">Refresh</button>
+          </div>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="card">
+            <div class="card-title">Summary</div>
+            <div class="summary">
+              <div><span class="muted">Total collected:</span> <strong id="reportTotal">0</strong></div>
+              <div><span class="muted">Students paid (this month):</span> <strong id="reportPaidCount">0</strong></div>
+              <div><span class="muted">Students with dues:</span> <strong id="reportUnpaidCount">0</strong></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Paid students</div>
+            <div id="reportPaidList" class="small-list"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Students with dues (unpaid months × ₹450)</div>
+          <div id="reportUnpaidList" class="small-list"></div>
+        </div>
+      </section>
+
+      <!-- Settings -->
+      <section id="view-settings" class="view hidden" data-view="settings" aria-labelledby="settingsHeading">
+        <div class="view-header">
+          <h2 id="settingsHeading" class="view-title">Settings</h2>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Backup</div>
+          <div class="muted">Export all data as JSON.</div>
+          <div class="row">
+            <button id="exportBtn" class="btn btn-primary" type="button">Export</button>
+            <button id="downloadBackupBtn" class="btn" type="button">Download JSON</button>
+          </div>
+          <textarea id="backupText" class="textarea" rows="10" placeholder="Backup JSON will appear here…"></textarea>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Restore</div>
+          <div class="muted">Paste exported JSON and restore (replaces current data).</div>
+          <div class="row">
+            <button id="importBtn" class="btn btn-primary" type="button">Import</button>
+            <button id="clearBackupTextBtn" class="btn" type="button">Clear</button>
+          </div>
+        </div>
+
+        <div class="card danger">
+          <div class="card-title">Reset</div>
+          <div class="muted">Deletes all students, attendance, payments, and receipts from this browser.</div>
+          <button id="resetBtn" class="btn btn-danger" type="button">Reset all data</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Student form modal -->
+    <dialog id="studentDialog" class="dialog no-print" aria-labelledby="studentDialogTitle">
+      <form id="studentForm" method="dialog" class="dialog-body">
+        <div class="dialog-header">
+          <div id="studentDialogTitle" class="dialog-title">Add student</div>
+          <button class="icon-btn" type="button" id="closeStudentDialogBtn" aria-label="Close">✕</button>
+        </div>
+
+        <input id="studentId" type="hidden" />
+
+        <div class="grid">
+          <label class="field">
+            <span class="label">Student name *</span>
+            <input id="studentName" class="input" type="text" required />
+          </label>
+          <label class="field">
+            <span class="label">Mobile number</span>
+            <input id="studentMobile" class="input" type="tel" placeholder="10-digit number" inputmode="numeric" maxlength="15" />
+          </label>
+          <label class="field">
+            <span class="label">Class *</span>
+            <select id="studentClass" class="input" required></select>
+          </label>
+          <label class="field">
+            <span class="label">Timing *</span>
+            <select id="studentTiming" class="input" required></select>
+          </label>
+          <label class="field">
+            <span class="label">Machine No *</span>
+            <select id="studentMachine" class="input" required></select>
+          </label>
+          <label class="field">
+            <span class="label">Date of joining *</span>
+            <input id="studentDoj" class="input" type="date" required />
+          </label>
+          <label class="field">
+            <span class="label">Monthly fee (₹450 fixed)</span>
+            <input id="studentFee" class="input" type="number" min="450" step="450" value="450" readonly />
+          </label>
+        </div>
+
+        <div class="dialog-footer">
+          <button class="btn" type="button" id="cancelStudentBtn">Cancel</button>
+          <button class="btn btn-primary" type="submit" id="saveStudentBtn">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast hidden no-print" role="status" aria-live="polite"></div>
+
+    <script defer src="assets/storage.js"></script>
+    <script defer src="assets/students.js"></script>
+    <script defer src="assets/attendance.js"></script>
+    <script defer src="assets/fees.js"></script>
+    <script defer src="assets/receipts.js"></script>
+    <script defer src="assets/reports.js"></script>
+    <script defer src="assets/app.js"></script>
+  </body>
+</html>
